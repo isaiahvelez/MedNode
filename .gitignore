@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Rust build output (for future implementation phase)
+target/
+
+# Environment files
+.env
+.env.*
+!.env.example

@@ -1,40 +1,54 @@
 # MedNode
 
-MedNode is an open-source, ultra-low-latency middleware engine for healthcare interoperability. It acts as the universal translator between fragmented, proprietary hospital networks. 
+MedNode is an open-source interoperability platform concept for healthcare networks.  
+This repository is currently in **foundation phase**: structure, documentation, and project scaffolding are in place, with implementation to follow.
 
-## The Problem
-Clinical data is currently trapped inside closed-ecosystem, monolithic Electronic Health Records (EHRs). Hospitals broadcast patient data using archaic, 30-year-old messaging standards like HL7v2. Ingesting and translating millions of messy, unstructured text strings using legacy C++ infrastructure introduces massive security liabilities through memory leaks and buffer overflows. 
+## Vision
+Clinical data often stays locked inside fragmented EHR systems and legacy interfaces.  
+MedNode aims to become a translation and routing layer that helps normalize and share data across HL7v2 and FHIR ecosystems with a strong focus on safety, performance, and reliability.
 
-## The Architecture
-MedNode is built entirely in Rust. It is designed from the ground up for absolute memory safety and high-concurrency data ingestion. Rather than functioning as a centralized database, MedNode operates as a localized translation engine, allowing clinics to normalize and share standard Fast Healthcare Interoperability Resources (FHIR) data.
+## Current Status
+- Repository scaffolding and architecture documentation
+- Team/process standards for contribution and security reporting
+- Domain structure for parser, router, and interface specs
+- No production code committed yet
 
+## Proposed System Components
+- `mednode-parser`: Ingest and normalize HL7v2 payloads
+- `mednode-router`: Route normalized events between trusted nodes
+- `mednode-core`: Shared domain models, contracts, and primitives
 
-
-* **Memory-Safe Parsing (`mednode-parser`):** Ingests raw, hostile HL7v2 feeds and normalizes them into strict FHIR standard schemas instantly. Rust’s compiler guarantees the elimination of buffer overflows and use-after-free vulnerabilities during heavy text parsing.
-* **Parallel Execution:** Healthcare data requires processing massive transaction batches. MedNode leverages parallel computer architecture to run heavy FHIRPath queries and data indexing across multiple CPU cores without memory contention or data races.
-* **Distributed State Synchronization (`mednode-router`):** Managing patient records across competing hospital networks is inherently a distributed systems problem. MedNode utilizes a highly concurrent model to ensure state synchronization across decentralized nodes, preventing data collision when multiple networks update a patient chart simultaneously.
-
-
-
-## Getting Started
-Ensure you have the latest stable version of Rust installed. 
-
-```bash
-# Clone the repository
-git clone [https://github.com/mednode/mednode.git](https://github.com/mednode/mednode.git)
-cd mednode
-
-# Build the workspace
-cargo build --release
-
-# Run the local interoperability node
-cargo run --bin mednode
+## Repository Layout
+```text
+.
+├── crates/
+│   ├── mednode-core/
+│   ├── mednode-parser/
+│   └── mednode-router/
+├── docs/
+│   ├── adr/
+│   ├── architecture.md
+│   └── roadmap.md
+├── interfaces/
+│   ├── fhir-r4/
+│   └── hl7v2/
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── README.md
 ```
 
-## Roadmap to 2030
-* **Phase 1:** Core FHIR R4 normalization and legacy HL7v2 parsing.
-* **Phase 2:** Peer-to-peer decentralized node routing between isolated hospital subnets.
-* **Phase 3:** Open-core enterprise release, offering managed cloud-hosted orchestration with compliance SLAs.
+## Next Build Steps
+1. Lock RFC/ADR decisions for message boundaries and error models.
+2. Define canonical HL7v2-to-FHIR mapping contracts.
+3. Bootstrap Rust workspace and crate targets.
+4. Add CI checks (format, lint, test, security scan).
+
+## Roadmap
+- **Phase 1:** HL7v2 parsing + FHIR R4 normalization baseline
+- **Phase 2:** Multi-node routing and state synchronization primitives
+- **Phase 3:** Operational hardening, compliance tooling, and hosted control plane
 
 ## License
 Apache License 2.0
